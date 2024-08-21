@@ -7,10 +7,12 @@ import {
   ParseBoolPipe,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ValidateUserPipe } from './pipes/validate-user.pipe';
+import { AuthGuard } from './guards/auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -33,6 +35,7 @@ export class UsersController {
   }
 
   @Get('greet')
+  @UseGuards(AuthGuard)
   greetUser(@Query(ValidateUserPipe) query: { name: string; age: number }) {
     return `Hello ${query.name}, you are ${query.age + 13}`;
   }
